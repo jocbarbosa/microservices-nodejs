@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+message Order {
+  string _id = 1;
+  string user_id = 2;
+  string course_id = 3;
+  float price = 4;
+  enum Status {
+    pending = 0;
+    processing = 1;
+    with_problem = 2;
+    cancelled = 3;
+    completed = 4;
+  }
+  Status status = 5;
+  string createdAt = 6;
+  string updatedAt = 7;
+}
+
+message ListOrdersRequest { string user_id = 1; }
+
+message ListOrdersResponse { repeated Order orders = 1; }
+
+message CreateOrderRequest {
+  string user_id = 1;
+  string course_id = 2;
+  float price = 3;
+  string status = 4;
+}
+
+message CreateOrderResponse { Order order = 1; }
+
+message CancelOrderRequest { string id = 1; }
+message CancelOrderResponse { Order order = 1; }
+
+service OrderService {
+  rpc listOrders(ListOrdersRequest) returns (ListOrdersResponse);
+  rpc createOrder(CreateOrderRequest) returns (CreateOrderRequest);
+  rpc cancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
+}

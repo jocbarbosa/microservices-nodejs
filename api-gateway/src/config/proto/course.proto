@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+message Course {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  float price = 4;
+  bool is_active = 5;
+}
+
+message GetAllCoursesRequest { bool is_active = 1; }
+message GetAllCoursesResponde { repeated Course courses = 1; }
+
+message GetCourseByIdRequest { string id = 1; }
+
+message CreateCourseRequest {
+  string name = 1;
+  string description = 2;
+  float price = 3;
+  bool is_active = 4;
+}
+
+message CourseResponse { Course course = 1; }
+
+message UpdateCourseRequest { Course course = 1; }
+
+message DestroyCourseRequest { string id = 1; }
+
+message DestroyCourseResponse {}
+
+service CourseService {
+  rpc getCourseById(GetCourseByIdRequest) returns (CourseResponse);
+  rpc getAllCourses(GetAllCoursesRequest) returns (GetAllCoursesResponde);
+  rpc createCourse(CreateCourseRequest) returns (CourseResponse);
+  rpc updateCourse(UpdateCourseRequest) returns (CourseResponse);
+  rpc destroyCourse(DestroyCourseRequest) returns (DestroyCourseResponse);
+}
